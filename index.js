@@ -226,19 +226,39 @@ const saveCards = (lists, board_id) => {
 	putItems(listsDb, titleCards).then();
 }
 
-async function getBoards () {
-    const board = await boardDb.fetch().next();
-    return board;
+async function getBoards(){
+    const boardGen = boardDb.fetch();
+    var boards = [];
+    for await (const storedBoards of boardGen) {
+      for (const board of storedBoards) {
+        boards.push(board);
+      }
+    }
+    return boards;    
 }
 
+
 async function getLists () {
-    const lists = await listsDb.fetch().next();
-    return lists;
+    const listsGen = listsDb.fetch();
+    var lists = [];
+    for await (const storedLists of listsGen) {
+      for (const list of storedLists) {
+        lists.push(list);
+      }
+    }
+    return lists;   
 }
 async function getCards () {
-    const notes = await cards.fetch().next();
-    return notes;
+    const notesGen = cards.fetch();
+    var notes = [];
+    for await (const storedNotes of notesGen) {
+      for (const note of storedNotes) {
+        notes.push(note);
+      }
+    }
+    return notes;   
 }
+
 
 
 
@@ -1651,11 +1671,10 @@ function getListNotes(notes, listId) {
 async function initializeBoard () {
     var boards = await getBoards();
 	var allLists = await getLists();
-    allLists = allLists.value;
+
 	var allNotes = await getCards();
-	allNotes = allNotes.value;
-	
-    boards = boards.value;
+
+
 
     if (boards.length > 0) {
         for (const board of boards) {

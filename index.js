@@ -1322,21 +1322,24 @@ $('.board .edit').live('keydown', function (ev) {
 	}
 
 	// enter
-	if (ev.keyCode == 13 && ev.ctrlKey) {
+	if ((ev.metaKey || ev.ctrlKey) && ev.keyCode == 13) {
 		var $this = $(this);
 		var $note = $this.closest('.note');
 		var $list = $note.closest('.list');
 
 		stopEditing($this, false);
 
-		if ($note && ev.shiftKey) // ctrl-shift-enter
-			addNote($list, null, $note);
+		if ($note && ev.shiftKey)  {// ctrl-shift-enter
+			console.log('Triggered');
+			addNote($list, null, $note);}
 		else
 			if ($note && !ev.shiftKey) // ctrl-enter
 				addNote($list, $note);
 
 		return false;
 	}
+
+
 
 	if (ev.keyCode == 13 && this.tagName == 'INPUT' ||
 		ev.keyCode == 13 && ev.altKey ||

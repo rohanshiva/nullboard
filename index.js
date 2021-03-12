@@ -1322,7 +1322,7 @@ $('.board .edit').live('keydown', function (ev) {
 	}
 
 	// enter
-	if ((ev.metaKey || ev.ctrlKey) && ev.keyCode == 13) {
+	if (ev.keyCode == 13 && ev.ctrlKey) {
 		var $this = $(this);
 		var $note = $this.closest('.note');
 		var $list = $note.closest('.list');
@@ -1343,7 +1343,8 @@ $('.board .edit').live('keydown', function (ev) {
 
 	if (ev.keyCode == 13 && this.tagName == 'INPUT' ||
 		ev.keyCode == 13 && ev.altKey ||
-		ev.keyCode == 13 && ev.shiftKey) {
+		ev.keyCode == 13 && ev.shiftKey || 
+		ev.keyCode == 13 && ev.metaKey) {
 		stopEditing($(this), false);
 		return false;
 	}
